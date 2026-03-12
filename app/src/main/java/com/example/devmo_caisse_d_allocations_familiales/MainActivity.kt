@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import com.example.devmo_caisse_d_allocations_familiales.ui.screens.HomeCafScreen
 import com.example.devmo_caisse_d_allocations_familiales.ui.theme.DevmoTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,6 +14,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             DevmoTheme {
+                HomeCafScreen()
             }
         }
     }
