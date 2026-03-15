@@ -20,7 +20,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.offset
 import androidx.compose.material.icons.filled.Article
@@ -68,13 +67,13 @@ import com.example.devmo_caisse_d_allocations_familiales.ui.theme.CafTurquoise
 import com.example.devmo_caisse_d_allocations_familiales.ui.theme.CafWhite
 
 @Composable
-fun HomeCafScreen() {
+fun HomeCafScreen(onNavigateToDemarches: () -> Unit, onNavigateToChatbot: () -> Unit) {
     var accessibilityEnabled by remember { mutableStateOf(false) }
 
     Scaffold(
         containerColor = CafWhite,
         bottomBar = {
-            BottomNavigationBar()
+            BottomNavigationBar(onChatbotClick = onNavigateToChatbot)
         }
     ) { innerPadding ->
 
@@ -116,7 +115,8 @@ fun HomeCafScreen() {
                     title = "Mon relevé de compte",
                     trailing = {
                         PdfBadge()
-                    }
+                    },
+                    onClick = { /* Implement if necessary */ }
                 )
             }
 
@@ -133,7 +133,8 @@ fun HomeCafScreen() {
                     title = "Mes attestations",
                     trailing = {
                         ArrowSquareButton()
-                    }
+                    },
+                    onClick = { /* Implement if necessary */ }
                 )
             }
 
@@ -150,7 +151,8 @@ fun HomeCafScreen() {
                     title = "Mes courriers, courriels",
                     trailing = {
                         ArrowSquareButton()
-                    }
+                    },
+                    onClick = { /* Implement if necessary */ }
                 )
             }
 
@@ -167,7 +169,8 @@ fun HomeCafScreen() {
                     title = "Démarches guidées",
                     trailing = {
                         ArrowSquareButton()
-                    }
+                    },
+                    onClick = onNavigateToDemarches
                 )
             }
         }
@@ -279,7 +282,7 @@ private fun PaymentCard() {
                 )
             ) {
                 Text(
-                    text = "Voir le détail de mes allocations",
+                    text = "Voir le detail de mes allocations",
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Medium
                 )
@@ -292,12 +295,13 @@ private fun PaymentCard() {
 private fun ActionRowCard(
     icon: @Composable () -> Unit,
     title: String,
-    trailing: @Composable () -> Unit
+    trailing: @Composable () -> Unit,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { },
+            .clickable { onClick() },
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(containerColor = CafWhite),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
@@ -349,8 +353,7 @@ private fun ArrowSquareButton() {
         modifier = Modifier
             .size(40.dp)
             .clip(RoundedCornerShape(4.dp))
-            .background(CafPrimary)
-            .clickable { },
+            .background(CafPrimary),
         contentAlignment = Alignment.Center
     ) {
         Icon(
@@ -362,29 +365,27 @@ private fun ArrowSquareButton() {
 }
 
 @Composable
-private fun FloatingAssistantButton() {
+private fun FloatingAssistantButton(onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .size(76.dp)
             .clip(CircleShape)
             .background(CafTurquoise)
-            .clickable { },
+            .clickable { onClick() }, 
         contentAlignment = Alignment.Center
     ) {
         Icon(
             imageVector = Icons.Filled.SmartToy,
             contentDescription = "Assistant",
             tint = CafWhite,
-            modifier = Modifier
-                .size(40.dp)
-                .offset(y = (-12).dp)
+            modifier = Modifier.size(40.dp).offset(y = (-12).dp)
         )
     }
 }
 
 
 @Composable
-private fun BottomNavigationBar() {
+private fun BottomNavigationBar(onChatbotClick: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxWidth(),
         contentAlignment = Alignment.BottomCenter
@@ -395,7 +396,7 @@ private fun BottomNavigationBar() {
                 .align(Alignment.TopCenter)
                 .offset(y = (-50).dp) // Ajuste la hauteur ici
         ) {
-            FloatingAssistantButton()
+            FloatingAssistantButton(onClick = onChatbotClick)
         }
 
         // 2. On place la barre en DEUXIÈME pour qu'elle soit au-dessus
