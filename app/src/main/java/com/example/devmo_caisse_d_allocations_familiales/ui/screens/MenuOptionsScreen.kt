@@ -25,6 +25,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.devmo_caisse_d_allocations_familiales.ui.theme.*
 
+/**
+ * Écran affichant la liste des démarches guidées.
+ * Réutilise les composants de l'en-tête et de la barre de navigation.
+ * 
+ * @param onNavigateBack Callback pour retourner à l'écran précédent.
+ * @param onNavigateToChatbot Callback pour ouvrir l'assistant virtuel.
+ */
 @Composable
 fun MenuOptionsScreen(onNavigateBack: () -> Unit, onNavigateToChatbot: () -> Unit) {
     var accessibilityEnabled by remember { mutableStateOf(false) }
@@ -177,7 +184,8 @@ private fun BottomNavigationBar(onHomeClick: () -> Unit, onChatbotClick: () -> U
                 modifier = Modifier.size(76.dp).clip(CircleShape).background(CafTurquoise).clickable { onChatbotClick() },
                 contentAlignment = Alignment.Center
             ) {
-                Icon(Icons.Filled.SmartToy, null, tint = CafWhite, modifier = Modifier.size(40.dp).offset(y = (-12).dp))
+                // Utilisation de l'icône de visage souriant pour l'assistant
+                Icon(Icons.Filled.SentimentSatisfiedAlt, null, tint = CafWhite, modifier = Modifier.size(40.dp).offset(y = (-12).dp))
             }
         }
         Column(modifier = Modifier.fillMaxWidth().background(CafWhite).windowInsetsPadding(WindowInsets.navigationBars)) {

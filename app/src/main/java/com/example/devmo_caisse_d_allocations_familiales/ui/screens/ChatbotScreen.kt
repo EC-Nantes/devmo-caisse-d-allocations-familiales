@@ -24,12 +24,19 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.devmo_caisse_d_allocations_familiales.ui.theme.*
 
+/**
+ * Écran de l'assistant virtuel (Chatbot) de la CAF.
+ * Cet écran est conçu pour s'afficher en superposition (Overlay) sur l'écran précédent.
+ * 
+ * @param onClose Fonction de rappel pour fermer l'assistant.
+ * @param viewModel Le ViewModel gérant l'état de la conversation.
+ */
 @Composable
 fun ChatbotScreen(
     onClose: () -> Unit,
     viewModel: ChatbotViewModel = viewModel()
 ) {
-
+    // Structure principale avec un espacement en haut pour l'effet de superposition
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -38,7 +45,12 @@ fun ChatbotScreen(
             .background(Color.White)
     ) {
         Scaffold(
-            topBar = { ChatbotHeader(onClose, onClear = { viewModel.clearChat() }) },
+            topBar = { 
+                ChatbotHeader(
+                    onClose = onClose, 
+                    onClear = { viewModel.clearChat() }
+                ) 
+            },
             bottomBar = { 
                 ChatbotInputSection(onSendMessage = { viewModel.sendMessage(it) }) 
             },
@@ -53,6 +65,7 @@ fun ChatbotScreen(
             ) {
                 item { Spacer(modifier = Modifier.height(16.dp)) }
                 
+                // Affichage dynamique des messages de la conversation
                 items(viewModel.messages) { message ->
                     ChatBubble(message.text, message.isUser)
                 }
@@ -66,6 +79,7 @@ fun ChatbotScreen(
                     )
                 }
 
+                // Boutons de suggestions rapides
                 item { SuggestionButton("Comment faire une demande APL ?", onClick = { viewModel.sendMessage("Comment faire une demande APL ?") }) }
                 item { SuggestionButton("Quels documents sont nécessaires ?", onClick = { viewModel.sendMessage("Quels documents sont nécessaires ?") }) }
                 item { SuggestionButton("Comment contacter la CAF ?", onClick = { viewModel.sendMessage("Comment contacter la CAF ?") }) }
@@ -74,6 +88,9 @@ fun ChatbotScreen(
     }
 }
 
+/**
+ * En-tête de l'assistant contenant le titre et les actions de contrôle.
+ */
 @Composable
 private fun ChatbotHeader(onClose: () -> Unit, onClear: () -> Unit) {
     Row(
@@ -83,6 +100,7 @@ private fun ChatbotHeader(onClose: () -> Unit, onClear: () -> Unit) {
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Icône de l'assistant dans un cercle blanc
         Box(
             modifier = Modifier
                 .size(40.dp)
@@ -91,13 +109,36 @@ private fun ChatbotHeader(onClose: () -> Unit, onClear: () -> Unit) {
         ) {
             Icon(Icons.Default.SentimentSatisfiedAlt, null, tint = CafTurquoise)
         }
+        
         Spacer(modifier = Modifier.width(12.dp))
-        Text("Assistant CAF", color = Color.White, fontSize = 20.sp, fontWeight = FontWeight.Bold, modifier = Modifier.weight(1f))
-        IconButton(onClick = onClear) { Icon(Icons.Default.Delete, null, tint = Color.White) }
-        IconButton(onClick = onClose) { Icon(Icons.Default.Close, null, tint = Color.White) }
+        
+        Text(
+            text = "Assistant CAF", 
+            color = Color.White, 
+            fontSize = 20.sp, 
+            fontWeight = FontWeight.Bold, 
+            modifier = Modifier.weight(1f)
+        )
+
+        // Actions de l'en-tête (Paramètres, Langue, Supprimer, Fermer)
+        IconButton(onClick = { /* Action Paramètres */ }) { 
+            Icon(Icons.Default.Settings, null, tint = Color.White) 
+        }
+        IconButton(onClick = { /* Action Langue */ }) { 
+            Icon(Icons.Default.Language, null, tint = Color.White) 
+        }
+        IconButton(onClick = onClear) { 
+            Icon(Icons.Default.Delete, null, tint = Color.White) 
+        }
+        IconButton(onClick = onClose) { 
+            Icon(Icons.Default.Close, null, tint = Color.White) 
+        }
     }
 }
 
+/**
+ * Composant représentant une bulle de message dans le chat.
+ */
 @Composable
 private fun ChatBubble(text: String, isUser: Boolean) {
     val alignment = if (isUser) Alignment.CenterEnd else Alignment.CenterStart
@@ -120,6 +161,9 @@ private fun ChatBubble(text: String, isUser: Boolean) {
     }
 }
 
+/**
+ * Bouton de suggestion pour poser une question prédéfinie.
+ */
 @Composable
 private fun SuggestionButton(text: String, onClick: () -> Unit) {
     Card(
@@ -132,6 +176,9 @@ private fun SuggestionButton(text: String, onClick: () -> Unit) {
     }
 }
 
+/**
+ * Section de saisie de texte en bas de l'écran.
+ */
 @Composable
 private fun ChatbotInputSection(onSendMessage: (String) -> Unit) {
     var text by remember { mutableStateOf("") }

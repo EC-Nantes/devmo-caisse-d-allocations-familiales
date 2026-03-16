@@ -29,7 +29,7 @@ import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.SmartToy
+import androidx.compose.material.icons.filled.SentimentSatisfiedAlt
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.material3.Button
@@ -375,7 +375,7 @@ private fun FloatingAssistantButton(onClick: () -> Unit) {
         contentAlignment = Alignment.Center
     ) {
         Icon(
-            imageVector = Icons.Filled.SmartToy,
+            imageVector = Icons.Filled.SentimentSatisfiedAlt,
             contentDescription = "Assistant",
             tint = CafWhite,
             modifier = Modifier.size(40.dp).offset(y = (-12).dp)
